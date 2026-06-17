@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ctrl+Contable — Panel de Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A1628;--navy2:#0F1F3D;--gold:#F5C842;--orange:#FF6B1A;
+  --blue:#1E90FF;--teal:#00D4AA;--text:#F0F0F0;--muted:#8899BB;
+  --border:rgba(30,144,255,0.18);--panel:#0D1929;--input:#091422;--red:#FF4757;
+}
+html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-family:'DM Sans',sans-serif}
+
+/* TOPBAR */
+.topbar{height:52px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px}
+.logo span{color:var(--gold)}
+.badge{font-family:'Space Mono',monospace;font-size:8px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.25);color:var(--gold);padding:3px 9px;border-radius:20px;letter-spacing:2px}
+.spacer{flex:1}
+.save-btn{padding:9px 20px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--orange));border:none;color:var(--navy);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:7px}
+.save-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,200,66,0.35)}
+.save-btn.saved{background:linear-gradient(135deg,var(--teal),#00b887)}
+.unsaved{width:7px;height:7px;border-radius:50%;background:var(--orange);display:none}
+.unsaved.on{display:inline-block}
+
+/* LAYOUT */
+.main{display:flex;height:calc(100vh - 52px);overflow:hidden}
+
+/* EDITOR */
+.editor{width:360px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto}
+.editor::-webkit-scrollbar{width:3px}
+.editor::-webkit-scrollbar-thumb{background:rgba(30,144,255,0.2);border-radius:3px}
+
+.esec{border-bottom:1px solid rgba(30,144,255,0.07);padding:16px 15px}
+.etitle{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.etitle::after{content:'';flex:1;height:1px;background:rgba(30,144,255,0.12)}
+
+.field{margin-bottom:9px}
+.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500}
+.field input,.field textarea,.field select{width:100%;background:var(--input);border:1px solid rgba(30,144,255,0.18);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s;resize:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue)}
+.field textarea{height:56px}
+.field select option{background:#091422}
+
+/* Socials */
+.soc-item{background:var(--input);border:1px solid rgba(30,144,255,0.1);border-radius:9px;padding:9px 10px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.soc-em{font-size:17px;flex-shrink:0}
+.soc-ins{flex:1;display:flex;flex-direction:column;gap:4px}
+.soc-ins input{background:rgba(255,255,255,0.03);border:1px solid rgba(30,144,255,0.1);border-radius:6px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 8px;outline:none;width:100%;transition:border-color .15s}
+.soc-ins input:focus{border-color:var(--blue)}
+.soc-ins input::placeholder{color:#334}
+.tog{width:30px;height:17px;border-radius:9px;background:#1a2a40;border:1px solid rgba(30,144,255,0.2);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--teal);border-color:var(--teal)}
+.tog::after{content:'';position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff;transition:transform .2s}
+.tog.on::after{transform:translateX(13px)}
+
+/* Templates */
+.tpl-item{background:var(--input);border:1px solid rgba(30,144,255,0.1);border-radius:9px;padding:11px;margin-bottom:6px}
+.tpl-item.paid{border-color:rgba(245,200,66,0.15)}
+.tpl-head{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.tpl-em{font-size:17px}
+.tpl-nm{flex:1;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--text)}
+.del{width:23px;height:23px;border-radius:5px;background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.2);color:var(--red);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.del:hover{background:rgba(255,71,87,0.25)}
+.tpl-fs{display:flex;flex-direction:column;gap:5px}
+.tpl-fs input{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(30,144,255,0.08);border-radius:6px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 8px;outline:none;transition:border-color .15s}
+.tpl-fs input:focus{border-color:var(--blue)}
+.tpl-fs input::placeholder{color:#334}
+.tpl-row{display:flex;gap:5px}
+.tpl-row input{flex:1}
+
+.add-btn{width:100%;padding:9px;border-radius:8px;background:transparent;border:1px dashed rgba(30,144,255,0.25);color:var(--blue);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:2px}
+.add-btn:hover{background:rgba(30,144,255,0.07);border-color:var(--blue)}
+
+/* PREVIEW */
+.preview{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px 20px;overflow-y:auto;background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(30,144,255,0.07) 0%,transparent 65%)}
+.preview::-webkit-scrollbar{width:3px}
+.preview::-webkit-scrollbar-thumb{background:rgba(30,144,255,0.15);border-radius:3px}
+.pv-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.pv-label::before,.pv-label::after{content:'';width:28px;height:1px;background:rgba(30,144,255,0.2)}
+
+/* Phone */
+.phone{width:310px;background:var(--navy);border-radius:32px;border:2px solid rgba(30,144,255,0.2);box-shadow:0 0 0 5px rgba(10,22,40,.9),0 0 0 6px rgba(30,144,255,0.08),0 26px 65px rgba(0,0,0,0.65);overflow:hidden;flex-shrink:0}
+.phone-bar{height:24px;background:#070E1A;display:flex;align-items:center;justify-content:center}
+.phone-pill{width:68px;height:8px;background:#111;border-radius:4px;border:1px solid #191919}
+.phone-body{height:580px;overflow-y:auto;padding:16px 13px 32px;scrollbar-width:none}
+.phone-body::-webkit-scrollbar{display:none}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--teal);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:10px 22px;border-radius:30px;transition:transform .3s;z-index:9999;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Status bar */
+.status-bar{background:rgba(0,212,170,0.06);border-top:1px solid rgba(0,212,170,0.15);padding:8px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);flex-shrink:0}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Ctrl<span>+</span>Contable</div>
+  <div class="badge">PANEL</div>
+  <div class="spacer"></div>
+  <button class="save-btn" id="save-btn" onclick="saveData()">
+    💾 Guardar cambios <span class="unsaved" id="udot"></span>
+  </button>
+</div>
+
+<div class="main">
+  <!-- EDITOR -->
+  <div class="editor">
+
+    <div class="esec">
+      <div class="etitle">Perfil</div>
+      <div class="field"><label>Nombre</label><input id="f-name" value="Ctrl+Contable" oninput="dirty();render()"></div>
+      <div class="field"><label>Handle (@)</label><input id="f-handle" value="@ctrl.contable" oninput="dirty();render()"></div>
+      <div class="field"><label>Bio</label><textarea id="f-bio" oninput="dirty();render()">📚 Contabilidad y Tributación Peruana
+⚖️ Casos reales · IA para contadores 🤖</textarea></div>
+      <div class="field"><label>Inicial / Emoji del avatar</label><input id="f-av" value="C+" oninput="dirty();render()"></div>
+    </div>
+
+    <div class="esec">
+      <div class="etitle">Redes Sociales</div>
+      <div id="soc-list"></div>
+      <button class="add-btn" onclick="addSoc()">＋ Agregar red social</button>
+    </div>
+
+    <div class="esec">
+      <div class="etitle">Plantillas Gratis</div>
+      <div id="free-list"></div>
+      <button class="add-btn" onclick="addTpl('free')">＋ Nueva plantilla gratis</button>
+    </div>
+
+    <div class="esec">
+      <div class="etitle">Plantillas Premium</div>
+      <div id="paid-list"></div>
+      <button class="add-btn" onclick="addTpl('paid')">＋ Nueva plantilla premium</button>
+    </div>
+
+    <div class="esec">
+      <div class="etitle">Método de Pago</div>
+      <div class="field">
+        <label>Plataforma</label>
+        <select id="f-paytype" onchange="dirty();updatePayLabel();render()">
+          <option value="payhip">Payhip (recomendado)</option>
+          <option value="gumroad">Gumroad</option>
+          <option value="yape">Yape / Plin</option>
+          <option value="kofi">Ko-fi</option>
+          <option value="none">Por definir</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="pay-lbl">Link de Payhip</label>
+        <input id="f-paydetail" placeholder="https://payhip.com/tutienda" oninput="dirty();render()">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview">
+    <div class="pv-label">Vista previa en tiempo real</div>
+    <div class="phone">
+      <div class="phone-bar"><div class="phone-pill"></div></div>
+      <div class="phone-body" id="phone-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── SHARED STORAGE KEY ──
+const KEY = 'ctrlcontable_v1';
+
+const SDEFS = {
+  tiktok:    {name:'TikTok',    em:'🎵',bg:'#111',           ph:'https://tiktok.com/@tuusuario'},
+  youtube:   {name:'YouTube',   em:'▶️', bg:'#FF0000',        ph:'https://youtube.com/@tucanal'},
+  instagram: {name:'Instagram', em:'📸',bg:'linear-gradient(135deg,#f09433,#dc2743,#bc1888)',ph:'https://instagram.com/tuusuario'},
+  facebook:  {name:'Facebook',  em:'👤',bg:'#1877F2',         ph:'https://facebook.com/tupagina'},
+  twitter:   {name:'X/Twitter', em:'✕', bg:'#000',            ph:'https://x.com/tuusuario'},
+  whatsapp:  {name:'WhatsApp',  em:'💬',bg:'#25D366',         ph:'https://wa.me/51999999999'},
+  linkedin:  {name:'LinkedIn',  em:'💼',bg:'#0077B5',         ph:'https://linkedin.com/in/tuperfil'},
+  telegram:  {name:'Telegram',  em:'✈️',bg:'#26A5E4',         ph:'https://t.me/tucanal'},
+};
+
+let S = {
+  name:'Ctrl+Contable', handle:'@ctrl.contable',
+  bio:'📚 Contabilidad y Tributación Peruana\n⚖️ Casos reales · IA para contadores 🤖',
+  av:'C+', paytype:'payhip', paydetail:'',
+  socials:[
+    {id:'tiktok',    on:true,  url:''},
+    {id:'youtube',   on:true,  url:''},
+    {id:'instagram', on:true,  url:''},
+    {id:'facebook',  on:true,  url:''},
+    {id:'twitter',   on:false, url:''},
+    {id:'whatsapp',  on:true,  url:''},
+  ],
+  free:[{em:'📊',title:'Renta de 5ta Categoría',desc:'Calcula tu retención mensual y anual. Para trabajadores en planilla.',url:''}],
+  paid:[
+    {em:'💰',title:'Flujo de Caja Mensual',     desc:'Ingresos, egresos y saldo para tu negocio',price:'S/. 15',url:''},
+    {em:'🧾',title:'IGV Mensual Simplificado',  desc:'Control de compras y ventas para declarar', price:'S/. 20',url:''},
+    {em:'📅',title:'Planilla de Sueldos',        desc:'AFP, ONP, CTS y vacaciones automáticos',    price:'S/. 25',url:''},
+  ],
+  pvTab:'free',
+};
+
+// ── STORAGE ──
+async function saveData(){
+  sync();
+  try{
+    await window.storage.set(KEY, JSON.stringify(S));
+    document.getElementById('udot').classList.remove('on');
+    const b=document.getElementById('save-btn');
+    b.classList.add('saved'); b.innerHTML='✅ Guardado';
+    setTimeout(()=>{b.classList.remove('saved');b.innerHTML='💾 Guardar cambios <span class="unsaved" id="udot"></span>';},2200);
+    toast('✅ Cambios guardados — la página pública ya se actualizó');
+  }catch(e){ toast('❌ Error al guardar'); }
+}
+
+async function loadData(){
+  try{
+    const r = await window.storage.get(KEY);
+    if(r && r.value){ Object.assign(S, JSON.parse(r.value)); fillFields(); }
+  }catch(e){}
+  buildLists(); render();
+}
+
+// ── SYNC ──
+function sync(){
+  S.name      = v('f-name');
+  S.handle    = v('f-handle');
+  S.bio       = v('f-bio');
+  S.av        = v('f-av');
+  S.paytype   = v('f-paytype');
+  S.paydetail = v('f-paydetail');
+}
+function v(id){ return document.getElementById(id)?.value||''; }
+
+function fillFields(){
+  set('f-name', S.name); set('f-handle', S.handle);
+  set('f-bio',  S.bio);  set('f-av', S.av);
+  set('f-paytype', S.paytype); set('f-paydetail', S.paydetail);
+  updatePayLabel();
+}
+function set(id,val){ const el=document.getElementById(id); if(el) el.value=val; }
+
+function dirty(){ document.getElementById('udot').classList.add('on'); }
+
+function updatePayLabel(){
+  const m={payhip:'Link de Payhip',gumroad:'Link de Gumroad',yape:'Número Yape/Plin',kofi:'Link Ko-fi',none:'Por definir'};
+  const el=document.getElementById('pay-lbl'); if(el) el.textContent=m[v('f-paytype')]||'Detalle';
+}
+
+// ── LISTS ──
+function buildLists(){ buildSocList(); buildFreeList(); buildPaidList(); }
+
+function buildSocList(){
+  document.getElementById('soc-list').innerHTML = S.socials.map((s,i)=>{
+    const d=SDEFS[s.id]||{name:s.id,em:'🔗',ph:''};
+    return `<div class="soc-item">
+      <div class="soc-em">${d.em}</div>
+      <div class="soc-ins">
+        <input value="${d.name}" readonly style="color:var(--muted);font-size:10px;cursor:default;padding:3px 8px">
+        <input type="url" placeholder="${d.ph}" value="${s.url}"
+          oninput="S.socials[${i}].url=this.value;dirty();render()">
+      </div>
+      <div class="tog ${s.on?'on':''}" onclick="S.socials[${i}].on=!S.socials[${i}].on;this.classList.toggle('on');dirty();render()"></div>
+    </div>`;
+  }).join('');
+}
+
+function buildFreeList(){
+  document.getElementById('free-list').innerHTML = S.free.map((t,i)=>`
+    <div class="tpl-item">
+      <div class="tpl-head">
+        <div class="tpl-em">${t.em}</div>
+        <div class="tpl-nm">${t.title||'Plantilla'}</div>
+        <button class="del" onclick="S.free.splice(${i},1);buildFreeList();dirty();render()">✕</button>
+      </div>
+      <div class="tpl-fs">
+        <div class="tpl-row">
+          <input placeholder="Emoji" value="${t.em}" style="max-width:56px"
+            oninput="S.free[${i}].em=this.value;buildFreeList();dirty();render()">
+          <input placeholder="Nombre" value="${t.title}"
+            oninput="S.free[${i}].title=this.value;buildFreeList();dirty();render()">
+        </div>
+        <input placeholder="Descripción" value="${t.desc}"
+          oninput="S.free[${i}].desc=this.value;dirty();render()">
+        <input placeholder="Link de descarga (Google Drive, Payhip, etc.)" value="${t.url}"
+          oninput="S.free[${i}].url=this.value;dirty();render()">
+      </div>
+    </div>`).join('');
+}
+
+function buildPaidList(){
+  document.getElementById('paid-list').innerHTML = S.paid.map((t,i)=>`
+    <div class="tpl-item paid">
+      <div class="tpl-head">
+        <div class="tpl-em">${t.em}</div>
+        <div class="tpl-nm">${t.title||'Plantilla'}</div>
+        <button class="del" onclick="S.paid.splice(${i},1);buildPaidList();dirty();render()">✕</button>
+      </div>
+      <div class="tpl-fs">
+        <div class="tpl-row">
+          <input placeholder="Emoji" value="${t.em}" style="max-width:56px"
+            oninput="S.paid[${i}].em=this.value;buildPaidList();dirty();render()">
+          <input placeholder="Nombre" value="${t.title}"
+            oninput="S.paid[${i}].title=this.value;buildPaidList();dirty();render()">
+        </div>
+        <input placeholder="Descripción" value="${t.desc}"
+          oninput="S.paid[${i}].desc=this.value;dirty();render()">
+        <div class="tpl-row">
+          <input placeholder="Precio (S/. 15)" value="${t.price}"
+            oninput="S.paid[${i}].price=this.value;dirty();render()">
+          <input placeholder="Link de compra (Payhip)" value="${t.url}"
+            oninput="S.paid[${i}].url=this.value;dirty();render()">
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function addSoc(){
+  const used=S.socials.map(s=>s.id);
+  const av=Object.keys(SDEFS).find(k=>!used.includes(k));
+  if(!av){toast('Ya tienes todas las redes');return;}
+  S.socials.push({id:av,on:true,url:''});
+  buildSocList();dirty();render();
+}
+
+function addTpl(t){
+  if(t==='free'){S.free.push({em:'📄',title:'Nueva plantilla',desc:'Descripción aquí',url:''});buildFreeList();}
+  else{S.paid.push({em:'📄',title:'Nueva plantilla',desc:'Descripción aquí',price:'S/. 0',url:''});buildPaidList();}
+  dirty();render();
+}
+
+// ── RENDER PREVIEW ──
+function render(){
+  sync();
+  const act=S.socials.filter(s=>s.on);
+  const cols=Math.min(act.length,3)||1;
+  const sc=0.88;
+
+  const socH=act.map(s=>{
+    const d=SDEFS[s.id]||{name:s.id,em:'🔗',bg:'#333'};
+    return `<a class="pgs" href="${s.url||'#'}" target="_blank" style="background:#0F1F3D;border:1px solid rgba(30,144,255,0.2);border-radius:${11*sc}px;padding:${11*sc}px ${5*sc}px ${9*sc}px;display:flex;flex-direction:column;align-items:center;gap:${5*sc}px;text-decoration:none">
+      <div style="width:${29*sc}px;height:${29*sc}px;border-radius:${7*sc}px;background:${d.bg};display:flex;align-items:center;justify-content:center;font-size:${14*sc}px">${d.em}</div>
+      <span style="font-size:${9*sc}px;color:#8899BB;font-weight:500">${d.name}</span>
+    </a>`;
+  }).join('');
+
+  const freeH=S.free.map(t=>`
+    <a href="${t.url||'#'}" target="_blank" style="background:#0F1F3D;border:1px solid rgba(30,144,255,0.18);border-radius:${12*sc}px;padding:${12*sc}px ${10*sc}px;display:flex;align-items:center;gap:${10*sc}px;text-decoration:none;position:relative;overflow:hidden">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:${3*sc}px;background:linear-gradient(180deg,#00D4AA,#1E90FF);border-radius:${3*sc}px 0 0 ${3*sc}px"></div>
+      <div style="width:${38*sc}px;height:${38*sc}px;border-radius:${10*sc}px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.14);display:flex;align-items:center;justify-content:center;font-size:${18*sc}px;flex-shrink:0">${t.em}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:${12*sc}px;color:#F0F0F0;margin-bottom:${2*sc}px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.title}</div>
+        <div style="font-size:${10*sc}px;color:#8899BB;line-height:1.35">${t.desc}</div>
+      </div>
+      <span style="font-family:'Space Mono',monospace;font-size:${8*sc}px;padding:${3*sc}px ${8*sc}px;border-radius:20px;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(0,212,170,0.1);color:#00D4AA;border:1px solid rgba(0,212,170,0.28)">GRATIS</span>
+    </a>`).join('');
+
+  const paidH=S.paid.map(t=>`
+    <a href="${t.url||'#'}" target="_blank" style="background:linear-gradient(135deg,rgba(245,200,66,0.05),rgba(255,107,26,0.04));border:1px solid rgba(245,200,66,0.18);border-radius:${12*sc}px;padding:${12*sc}px ${10*sc}px;display:flex;align-items:center;gap:${10*sc}px;text-decoration:none;position:relative;overflow:hidden">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:${3*sc}px;background:linear-gradient(180deg,#F5C842,#FF6B1A);border-radius:${3*sc}px 0 0 ${3*sc}px"></div>
+      <div style="width:${38*sc}px;height:${38*sc}px;border-radius:${10*sc}px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.14);display:flex;align-items:center;justify-content:center;font-size:${18*sc}px;flex-shrink:0">${t.em}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:${12*sc}px;color:#F0F0F0;margin-bottom:${2*sc}px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.title}</div>
+        <div style="font-size:${10*sc}px;color:#8899BB;line-height:1.35">${t.desc}</div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:${11*sc}px;font-weight:700;color:#F5C842;white-space:nowrap;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:${3*sc}px">
+        ${t.price}<span style="font-size:${9*sc}px;color:#FF6B1A;font-weight:400">🔒 comprar</span>
+      </div>
+    </a>`).join('');
+
+  const bio=S.bio.replace(/\n/g,'<br>');
+  const unm=S.name.replace(/\+/g,'<span style="background:linear-gradient(135deg,#F5C842,#FF6B1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">+</span>');
+  const tid='t'+Math.random().toString(36).slice(2,6);
+  const fid='f'+Math.random().toString(36).slice(2,6);
+  const pid='p'+Math.random().toString(36).slice(2,6);
+
+  document.getElementById('phone-body').innerHTML=`
+    <div style="display:flex;flex-direction:column;align-items:center;gap:${8*sc}px;margin-bottom:${20*sc}px">
+      <div style="padding:3px;border-radius:50%;background:conic-gradient(#F5C842,#FF6B1A,#1E90FF,#00D4AA,#F5C842);animation:spin 4s linear infinite">
+        <div style="width:${68*sc}px;height:${68*sc}px;border-radius:50%;background:#0F1F3D;border:3px solid #0A1628;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:${20*sc}px;color:#F5C842">${S.av||'C+'}</div>
+      </div>
+      <span style="font-family:'Space Mono',monospace;font-size:${10*sc}px;color:#1E90FF;letter-spacing:1px">${S.handle}</span>
+      <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:${20*sc}px;text-align:center;line-height:1">${unm}</h1>
+      <p style="font-size:${11*sc}px;color:#8899BB;text-align:center;max-width:${240*sc}px;line-height:1.5">${bio}</p>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:${10*sc}px">
+      <span style="font-family:'Space Mono',monospace;font-size:${8*sc}px;letter-spacing:3px;text-transform:uppercase;color:#8899BB">Sígueme en</span>
+      <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(30,144,255,0.3),transparent)"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(${cols},1fr);gap:${7*sc}px;margin-bottom:${20*sc}px">${socH}</div>
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:${10*sc}px">
+      <span style="font-family:'Space Mono',monospace;font-size:${8*sc}px;letter-spacing:3px;text-transform:uppercase;color:#8899BB">Plantillas</span>
+      <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(30,144,255,0.3),transparent)"></div>
+    </div>
+
+    <div style="display:flex;background:#0F1F3D;border:1px solid rgba(30,144,255,0.14);border-radius:${11*sc}px;padding:${4*sc}px;gap:${4*sc}px;margin-bottom:${11*sc}px">
+      <button id="${tid}-f" onclick="pvtab('${tid}','${fid}','${pid}','free')"
+        style="flex:1;border-radius:${8*sc}px;border:none;padding:${8*sc}px ${5*sc}px;font-size:${11*sc}px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#00D4AA,#1E90FF);color:#fff;box-shadow:0 3px 10px rgba(0,212,170,0.22)">
+        🎁 Gratis <span style="font-size:${8*sc}px;background:rgba(0,0,0,0.18);border-radius:20px;padding:1px 5px">${S.free.length}</span>
+      </button>
+      <button id="${tid}-p" onclick="pvtab('${tid}','${fid}','${pid}','paid')"
+        style="flex:1;border-radius:${8*sc}px;border:none;padding:${8*sc}px ${5*sc}px;font-size:${11*sc}px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;background:transparent;color:#8899BB">
+        ⚡ Premium <span style="font-size:${8*sc}px;background:rgba(0,0,0,0.12);border-radius:20px;padding:1px 5px">${S.paid.length}</span>
+      </button>
+    </div>
+
+    <div id="${fid}" style="display:flex;flex-direction:column;gap:${8*sc}px">
+      ${freeH}
+      ${S.free.length>0?`<a href="${S.free[0].url||'#'}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:${11*sc}px;border-radius:${11*sc}px;background:linear-gradient(135deg,#00D4AA,#1E90FF);border:none;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:${13*sc}px;cursor:pointer;text-decoration:none">⬇️ Descargar plantilla gratis</a>`:''}
+    </div>
+    <div id="${pid}" style="display:none;flex-direction:column;gap:${8*sc}px">${paidH}</div>
+
+    <div style="text-align:center;margin-top:${26*sc}px;font-family:'Space Mono',monospace;font-size:${8*sc}px;color:rgba(136,153,187,0.25);letter-spacing:3px">ctrl<span style="color:#F5C842">+</span>contable</div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  `;
+}
+
+function pvtab(tid,fid,pid,which){
+  const tf=document.getElementById(tid+'-f');
+  const tp=document.getElementById(tid+'-p');
+  const pf=document.getElementById(fid);
+  const pp=document.getElementById(pid);
+  if(!tf||!tp||!pf||!pp)return;
+  if(which==='free'){
+    tf.style.cssText='flex:1;border-radius:8px;border:none;padding:7px 5px;font-size:10px;font-family:DM Sans,sans-serif;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#00D4AA,#1E90FF);color:#fff;box-shadow:0 3px 10px rgba(0,212,170,0.22)';
+    tp.style.cssText='flex:1;border-radius:8px;border:none;padding:7px 5px;font-size:10px;font-family:DM Sans,sans-serif;font-weight:500;cursor:pointer;background:transparent;color:#8899BB';
+    pf.style.display='flex'; pp.style.display='none';
+  } else {
+    tp.style.cssText='flex:1;border-radius:8px;border:none;padding:7px 5px;font-size:10px;font-family:DM Sans,sans-serif;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#F5C842,#FF6B1A);color:#0A1628;box-shadow:0 3px 10px rgba(245,200,66,0.28)';
+    tf.style.cssText='flex:1;border-radius:8px;border:none;padding:7px 5px;font-size:10px;font-family:DM Sans,sans-serif;font-weight:500;cursor:pointer;background:transparent;color:#8899BB';
+    pf.style.display='none'; pp.style.display='flex';
+  }
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+loadData();
+</script>
+</body>
+</html>
