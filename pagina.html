@@ -10,8 +10,6 @@
 :root{--navy:#0A1628;--navy2:#0F1F3D;--gold:#F5C842;--orange:#FF6B1A;--blue:#1E90FF;--teal:#00D4AA;--text:#F0F0F0;--muted:#8899BB}
 body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;justify-content:center;padding:0 16px 60px;background-image:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(30,144,255,0.14) 0%,transparent 60%)}
 .page{width:100%;max-width:430px;padding-top:44px}
-
-/* PERFIL */
 .profile{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:30px}
 .av-ring{padding:3px;border-radius:50%;background:conic-gradient(var(--gold),var(--orange),var(--blue),var(--teal),var(--gold));animation:spin 4s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -20,29 +18,19 @@ body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;m
 .username{font-family:'Syne',sans-serif;font-weight:800;text-align:center;line-height:1}
 .plus{background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .bio{color:var(--muted);text-align:center;line-height:1.55;max-width:300px}
-
-/* SEC LABEL */
 .sec{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .sec span{font-family:'Space Mono',monospace;text-transform:uppercase;color:var(--muted);letter-spacing:3px}
 .sec::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(30,144,255,0.3),transparent)}
-
-/* SOCIALS */
 .soc-grid{display:grid;gap:9px;margin-bottom:30px}
-.soc-btn{background:var(--navy2);border:1px solid rgba(30,144,255,0.2);border-radius:14px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;transition:all .2s;position:relative;overflow:hidden}
-.soc-btn::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
+.soc-btn{background:var(--navy2);border:1px solid rgba(30,144,255,0.2);border-radius:14px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;transition:all .2s}
 .soc-btn:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,0.45)}
-.soc-btn:hover::before{opacity:1}
 .soc-ic{border-radius:8px;display:flex;align-items:center;justify-content:center}
 .soc-nm{color:var(--muted);font-weight:500}
-
-/* TABS */
 .tabs{display:flex;background:var(--navy2);border:1px solid rgba(30,144,255,0.14);border-radius:13px;padding:4px;gap:4px;margin-bottom:14px}
 .tab{flex:1;border-radius:9px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:6px}
 .tab.af{background:linear-gradient(135deg,#00D4AA,#1E90FF);color:#fff;font-weight:700;box-shadow:0 3px 10px rgba(0,212,170,0.25)}
 .tab.ap{background:linear-gradient(135deg,var(--gold),var(--orange));color:var(--navy);font-weight:700;box-shadow:0 3px 10px rgba(245,200,66,0.28)}
 .panel{display:none;flex-direction:column;gap:10px}.panel.active{display:flex}
-
-/* TEMPLATE CARDS */
 .tpl{background:var(--navy2);border:1px solid rgba(30,144,255,0.18);border-radius:16px;padding:15px 13px;display:flex;align-items:center;gap:12px;text-decoration:none;position:relative;overflow:hidden;transition:all .2s}
 .tpl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--teal),var(--blue));border-radius:3px 0 0 3px}
 .tpl:hover{border-color:var(--teal);transform:translateY(-2px)}
@@ -53,58 +41,67 @@ body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;m
 .badge-free{font-family:'Space Mono',monospace;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(0,212,170,0.1);color:var(--teal);border:1px solid rgba(0,212,170,0.28);border-radius:20px}
 .dl-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--blue));border:none;color:#fff;font-family:'Syne',sans-serif;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s}
 .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,170,0.3)}
-
-/* PAID CARDS */
 .tpl-paid{background:linear-gradient(135deg,rgba(245,200,66,0.05),rgba(255,107,26,0.04));border:1px solid rgba(245,200,66,0.18);border-radius:16px;padding:15px 13px;display:flex;align-items:center;gap:12px;text-decoration:none;position:relative;overflow:hidden;transition:all .2s}
 .tpl-paid::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--orange));border-radius:3px 0 0 3px}
 .tpl-paid:hover{border-color:var(--gold);transform:translateY(-2px)}
 .tpl-paid-ic{border-radius:12px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.14);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .tpl-price{font-family:'Space Mono',monospace;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .tpl-price-sub{color:var(--orange);font-weight:400}
-
 footer{text-align:center;margin-top:40px;font-family:'Space Mono',monospace;color:rgba(136,153,187,0.25);letter-spacing:3px}
-
-/* Loading */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;text-align:center}
 .loading-ring{width:48px;height:48px;border-radius:50%;border:3px solid rgba(30,144,255,0.15);border-top-color:var(--blue);animation:spin .9s linear infinite}
-.loading-text{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px}
 </style>
 </head>
 <body>
 <div class="page" id="page">
-  <div class="loading">
-    <div class="loading-ring"></div>
-    <div class="loading-text">Cargando...</div>
-  </div>
+  <div class="loading"><div class="loading-ring"></div></div>
 </div>
 
 <script>
+/* ═══════════════════════════════════════════════════════
+   ESTOS SON LOS DATOS PUBLICADOS DESDE EL PANEL.
+   Cada vez que edites en panel.html y presiones "Publicar",
+   reemplaza TODO el bloque entre //DATA_START y //DATA_END
+   con el código que te da el botón "Copiar código".
+═══════════════════════════════════════════════════════ */
+//DATA_START
+const SITE_DATA = null;
+//DATA_END
+/* ═══════════════════════════════════════════════════════ */
+
 const KEY = 'ctrlcontable_v1';
 
 const SDEFS = {
-  tiktok:    {name:'TikTok',    em:'🎵',bg:'#111',           top:'linear-gradient(90deg,#69C9D0,#EE1D52)'},
-  youtube:   {name:'YouTube',   em:'▶️', bg:'#FF0000',        top:'#FF0000'},
-  instagram: {name:'Instagram', em:'📸',bg:'linear-gradient(135deg,#f09433,#dc2743,#bc1888)',top:'linear-gradient(90deg,#f09433,#bc1888)'},
-  facebook:  {name:'Facebook',  em:'👤',bg:'#1877F2',         top:'#1877F2'},
-  twitter:   {name:'X/Twitter', em:'✕', bg:'#000',            top:'#fff'},
-  whatsapp:  {name:'WhatsApp',  em:'💬',bg:'#25D366',         top:'#25D366'},
-  linkedin:  {name:'LinkedIn',  em:'💼',bg:'#0077B5',         top:'#0077B5'},
-  telegram:  {name:'Telegram',  em:'✈️',bg:'#26A5E4',         top:'#26A5E4'},
+  tiktok:    {name:'TikTok',    em:'🎵',bg:'#111'},
+  youtube:   {name:'YouTube',   em:'▶️', bg:'#FF0000'},
+  instagram: {name:'Instagram', em:'📸',bg:'linear-gradient(135deg,#f09433,#dc2743,#bc1888)'},
+  facebook:  {name:'Facebook',  em:'👤',bg:'#1877F2'},
+  twitter:   {name:'X/Twitter', em:'✕', bg:'#000'},
+  whatsapp:  {name:'WhatsApp',  em:'💬',bg:'#25D366'},
+  linkedin:  {name:'LinkedIn',  em:'💼',bg:'#0077B5'},
+  telegram:  {name:'Telegram',  em:'✈️',bg:'#26A5E4'},
 };
 
-async function load(){
-  let S = null;
+function getData(){
+  // 1. Prioridad: datos publicados directamente en este archivo
+  if (SITE_DATA) return SITE_DATA;
+  // 2. Respaldo: localStorage del mismo navegador (útil para probar)
   try{
-    const r = await window.storage.get(KEY);
-    if(r && r.value) S = JSON.parse(r.value);
+    const raw = localStorage.getItem(KEY);
+    if(raw) return JSON.parse(raw);
   }catch(e){}
+  return null;
+}
+
+function render(){
+  const S = getData();
 
   if(!S){
     document.getElementById('page').innerHTML = `
       <div class="loading">
         <div style="font-size:40px">⚙️</div>
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;text-align:center">Página no configurada</div>
-        <div style="font-size:13px;color:var(--muted);text-align:center;max-width:260px;line-height:1.6">Abre el Panel de Control, completa tu información y presiona <strong style="color:var(--gold)">Guardar cambios</strong>. Esta página se actualizará automáticamente.</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px">Página no configurada</div>
+        <div style="font-size:13px;color:var(--muted);max-width:260px;line-height:1.6">Abre el Panel de Control, completa tu información y presiona <strong style="color:var(--gold)">Publicar</strong>. Luego pega el código aquí.</div>
       </div>`;
     return;
   }
@@ -113,10 +110,8 @@ async function load(){
   const cols = Math.min(active.length,3)||1;
 
   const socH = active.map(s=>{
-    const d=SDEFS[s.id]||{name:s.id,em:'🔗',bg:'#333',top:'#666'};
-    const href = s.url || '#';
-    return `<a class="soc-btn" href="${href}" target="_blank" style="position:relative;overflow:hidden">
-      <style>.soc-btn.s-${s.id}::before{background:${d.top}}</style>
+    const d=SDEFS[s.id]||{name:s.id,em:'🔗',bg:'#333'};
+    return `<a class="soc-btn" href="${s.url||'#'}" target="_blank">
       <div class="soc-ic" style="width:34px;height:34px;font-size:16px;background:${d.bg}">${d.em}</div>
       <span class="soc-nm" style="font-size:10px">${d.name}</span>
     </a>`;
@@ -139,9 +134,7 @@ async function load(){
         <div class="tpl-title" style="font-size:13px;margin-bottom:3px">${t.title}</div>
         <div class="tpl-desc" style="font-size:11px">${t.desc}</div>
       </div>
-      <div class="tpl-price" style="font-size:13px">
-        ${t.price}<span class="tpl-price-sub" style="font-size:9px">🔒 comprar</span>
-      </div>
+      <div class="tpl-price" style="font-size:13px">${t.price}<span class="tpl-price-sub" style="font-size:9px">🔒 comprar</span></div>
     </a>`).join('');
 
   const bio = (S.bio||'').replace(/\n/g,'<br>');
@@ -152,53 +145,37 @@ async function load(){
 
   document.getElementById('page').innerHTML = `
     <div class="profile">
-      <div class="av-ring">
-        <div class="av-inner" style="width:80px;height:80px;font-size:24px">${S.av||'C+'}</div>
-      </div>
+      <div class="av-ring"><div class="av-inner" style="width:80px;height:80px;font-size:24px">${S.av||'C+'}</div></div>
       <span class="handle" style="font-size:11px">${S.handle||'@ctrl.contable'}</span>
       <h1 class="username" style="font-size:24px">${unm}</h1>
       <p class="bio" style="font-size:13px">${bio}</p>
     </div>
-
     <div class="sec" style="margin-bottom:12px"><span style="font-size:9px">Sígueme en</span></div>
-    <div class="soc-grid" style="grid-template-columns:repeat(${cols},1fr)">
-      ${socH}
-    </div>
-
+    <div class="soc-grid" style="grid-template-columns:repeat(${cols},1fr)">${socH}</div>
     <div class="sec" style="margin-bottom:12px"><span style="font-size:9px">Plantillas</span></div>
-    <div class="tabs" style="padding:4px">
-      <button class="tab af" id="tab-f" onclick="sw('free')" style="padding:10px 6px;font-size:13px;border-radius:9px">
-        🎁 Gratis <span style="font-size:10px;background:rgba(0,0,0,0.18);border-radius:20px;padding:1px 6px">${fl}</span>
-      </button>
-      <button class="tab" id="tab-p" onclick="sw('paid')" style="padding:10px 6px;font-size:13px;border-radius:9px">
-        ⚡ Premium <span style="font-size:10px;background:rgba(0,0,0,0.1);border-radius:20px;padding:1px 6px">${pl}</span>
-      </button>
+    <div class="tabs">
+      <button class="tab af" id="tab-f" onclick="sw('free')" style="padding:10px 6px;font-size:13px">🎁 Gratis <span style="font-size:10px;background:rgba(0,0,0,0.18);border-radius:20px;padding:1px 6px">${fl}</span></button>
+      <button class="tab" id="tab-p" onclick="sw('paid')" style="padding:10px 6px;font-size:13px">⚡ Premium <span style="font-size:10px;background:rgba(0,0,0,0.1);border-radius:20px;padding:1px 6px">${pl}</span></button>
     </div>
-
     <div class="panel active" id="panel-f">
       ${freeH}
       ${fl>0?`<a class="dl-btn" href="${firstFreeUrl}" target="_blank" style="padding:13px;font-size:14px">⬇️ Descargar plantilla gratis</a>`:''}
     </div>
-    <div class="panel" id="panel-p">
-      ${paidH}
-    </div>
-
+    <div class="panel" id="panel-p">${paidH}</div>
     <footer style="font-size:9px">ctrl<span style="color:var(--gold)">+</span>contable</footer>
   `;
 }
 
 function sw(w){
-  const tf=document.getElementById('tab-f');
-  const tp=document.getElementById('tab-p');
-  const pf=document.getElementById('panel-f');
-  const pp=document.getElementById('panel-p');
+  const tf=document.getElementById('tab-f'), tp=document.getElementById('tab-p');
+  const pf=document.getElementById('panel-f'), pp=document.getElementById('panel-p');
   tf.className='tab'+(w==='free'?' af':'');
   tp.className='tab'+(w==='paid'?' ap':'');
   pf.className='panel'+(w==='free'?' active':'');
   pp.className='panel'+(w==='paid'?' active':'');
 }
 
-load();
+render();
 </script>
 </body>
 </html>

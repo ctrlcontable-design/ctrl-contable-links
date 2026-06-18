@@ -12,24 +12,25 @@
   --blue:#1E90FF;--teal:#00D4AA;--text:#F0F0F0;--muted:#8899BB;
   --border:rgba(30,144,255,0.18);--panel:#0D1929;--input:#091422;--red:#FF4757;
 }
-html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-family:'DM Sans',sans-serif}
+html,body{height:100%;background:#070E1A;color:var(--text);font-family:'DM Sans',sans-serif}
+body{overflow:hidden}
 
-/* TOPBAR */
 .topbar{height:52px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px}
 .logo span{color:var(--gold)}
 .badge{font-family:'Space Mono',monospace;font-size:8px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.25);color:var(--gold);padding:3px 9px;border-radius:20px;letter-spacing:2px}
 .spacer{flex:1}
-.save-btn{padding:9px 20px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--orange));border:none;color:var(--navy);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:7px}
-.save-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,200,66,0.35)}
-.save-btn.saved{background:linear-gradient(135deg,var(--teal),#00b887)}
+.btn{padding:9px 18px;border-radius:9px;border:none;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:7px}
+.btn-save{background:linear-gradient(135deg,var(--gold),var(--orange));color:var(--navy)}
+.btn-save:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,200,66,0.35)}
+.btn-save.saved{background:linear-gradient(135deg,var(--teal),#00b887)}
+.btn-publish{background:linear-gradient(135deg,var(--blue),#6a3ef0);color:#fff}
+.btn-publish:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(30,144,255,0.35)}
 .unsaved{width:7px;height:7px;border-radius:50%;background:var(--orange);display:none}
 .unsaved.on{display:inline-block}
 
-/* LAYOUT */
 .main{display:flex;height:calc(100vh - 52px);overflow:hidden}
 
-/* EDITOR */
 .editor{width:360px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto}
 .editor::-webkit-scrollbar{width:3px}
 .editor::-webkit-scrollbar-thumb{background:rgba(30,144,255,0.2);border-radius:3px}
@@ -45,7 +46,6 @@ html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-
 .field textarea{height:56px}
 .field select option{background:#091422}
 
-/* Socials */
 .soc-item{background:var(--input);border:1px solid rgba(30,144,255,0.1);border-radius:9px;padding:9px 10px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .soc-em{font-size:17px;flex-shrink:0}
 .soc-ins{flex:1;display:flex;flex-direction:column;gap:4px}
@@ -57,7 +57,6 @@ html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-
 .tog::after{content:'';position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff;transition:transform .2s}
 .tog.on::after{transform:translateX(13px)}
 
-/* Templates */
 .tpl-item{background:var(--input);border:1px solid rgba(30,144,255,0.1);border-radius:9px;padding:11px;margin-bottom:6px}
 .tpl-item.paid{border-color:rgba(245,200,66,0.15)}
 .tpl-head{display:flex;align-items:center;gap:7px;margin-bottom:8px}
@@ -75,27 +74,34 @@ html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-
 .add-btn{width:100%;padding:9px;border-radius:8px;background:transparent;border:1px dashed rgba(30,144,255,0.25);color:var(--blue);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:2px}
 .add-btn:hover{background:rgba(30,144,255,0.07);border-color:var(--blue)}
 
-/* PREVIEW */
 .preview{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px 20px;overflow-y:auto;background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(30,144,255,0.07) 0%,transparent 65%)}
 .preview::-webkit-scrollbar{width:3px}
 .preview::-webkit-scrollbar-thumb{background:rgba(30,144,255,0.15);border-radius:3px}
 .pv-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:8px}
 .pv-label::before,.pv-label::after{content:'';width:28px;height:1px;background:rgba(30,144,255,0.2)}
 
-/* Phone */
 .phone{width:310px;background:var(--navy);border-radius:32px;border:2px solid rgba(30,144,255,0.2);box-shadow:0 0 0 5px rgba(10,22,40,.9),0 0 0 6px rgba(30,144,255,0.08),0 26px 65px rgba(0,0,0,0.65);overflow:hidden;flex-shrink:0}
 .phone-bar{height:24px;background:#070E1A;display:flex;align-items:center;justify-content:center}
 .phone-pill{width:68px;height:8px;background:#111;border-radius:4px;border:1px solid #191919}
 .phone-body{height:580px;overflow-y:auto;padding:16px 13px 32px;scrollbar-width:none}
 .phone-body::-webkit-scrollbar{display:none}
 
-/* Toast */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--teal);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:10px 22px;border-radius:30px;transition:transform .3s;z-index:9999;white-space:nowrap;pointer-events:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--teal);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:10px 22px;border-radius:30px;transition:transform .3s;z-index:9999;white-space:nowrap;pointer-events:none;text-align:center;max-width:90vw}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-/* Status bar */
-.status-bar{background:rgba(0,212,170,0.06);border-top:1px solid rgba(0,212,170,0.15);padding:8px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);flex-shrink:0}
-.status-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:9000;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto}
+.modal h2{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--gold);margin-bottom:8px}
+.modal p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.modal ol{font-size:13px;color:var(--text);line-height:1.8;margin:0 0 14px 18px}
+.modal ol strong{color:var(--gold)}
+.code-box{background:var(--input);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:'Space Mono',monospace;font-size:11px;color:var(--teal);max-height:220px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;margin-bottom:14px}
+.modal-btns{display:flex;gap:10px;flex-wrap:wrap}
+.modal-btn{padding:10px 18px;border-radius:9px;border:none;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .18s}
+.modal-btn-copy{background:linear-gradient(135deg,var(--gold),var(--orange));color:var(--navy)}
+.modal-btn-close{background:rgba(30,144,255,0.1);border:1px solid rgba(30,144,255,0.3);color:var(--blue)}
 </style>
 </head>
 <body>
@@ -104,15 +110,12 @@ html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-
   <div class="logo">Ctrl<span>+</span>Contable</div>
   <div class="badge">PANEL</div>
   <div class="spacer"></div>
-  <button class="save-btn" id="save-btn" onclick="saveData()">
-    💾 Guardar cambios <span class="unsaved" id="udot"></span>
-  </button>
+  <button class="btn btn-save" id="save-btn" onclick="saveData()">💾 Guardar <span class="unsaved" id="udot"></span></button>
+  <button class="btn btn-publish" onclick="openPublishModal()">🚀 Publicar</button>
 </div>
 
 <div class="main">
-  <!-- EDITOR -->
   <div class="editor">
-
     <div class="esec">
       <div class="etitle">Perfil</div>
       <div class="field"><label>Nombre</label><input id="f-name" value="Ctrl+Contable" oninput="dirty();render()"></div>
@@ -152,15 +155,10 @@ html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-
           <option value="none">Por definir</option>
         </select>
       </div>
-      <div class="field">
-        <label id="pay-lbl">Link de Payhip</label>
-        <input id="f-paydetail" placeholder="https://payhip.com/tutienda" oninput="dirty();render()">
-      </div>
+      <div class="field"><label id="pay-lbl">Link de Payhip</label><input id="f-paydetail" placeholder="https://payhip.com/tutienda" oninput="dirty();render()"></div>
     </div>
-
   </div>
 
-  <!-- PREVIEW -->
   <div class="preview">
     <div class="pv-label">Vista previa en tiempo real</div>
     <div class="phone">
@@ -172,8 +170,27 @@ html,body{height:100%;overflow:hidden;background:#070E1A;color:var(--text);font-
 
 <div class="toast" id="toast"></div>
 
+<!-- PUBLISH MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h2>🚀 Publicar cambios</h2>
+    <p>Copia este código y pégalo en tu archivo <strong style="color:var(--gold)">pagina.html</strong>, reemplazando todo lo que está entre las marcas <code style="color:var(--teal)">//DATA_START</code> y <code style="color:var(--teal)">//DATA_END</code>. Luego sube el archivo actualizado a GitHub.</p>
+    <ol>
+      <li>Presiona <strong>"Copiar código"</strong> abajo</li>
+      <li>Abre tu archivo <strong>pagina.html</strong> en GitHub (botón del lápiz ✏️ para editar)</li>
+      <li>Busca la línea <strong>//DATA_START</strong> y reemplaza hasta <strong>//DATA_END</strong> con lo que copiaste</li>
+      <li>Guarda los cambios ("Commit changes") en GitHub</li>
+      <li>Espera unos 30-60 segundos y tu link público ya estará actualizado</li>
+    </ol>
+    <div class="code-box" id="code-box">Genera el código primero...</div>
+    <div class="modal-btns">
+      <button class="modal-btn modal-btn-copy" onclick="copyPublishCode()">📋 Copiar código</button>
+      <button class="modal-btn modal-btn-close" onclick="closePublishModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ── SHARED STORAGE KEY ──
 const KEY = 'ctrlcontable_v1';
 
 const SDEFS = {
@@ -205,57 +222,45 @@ let S = {
     {em:'🧾',title:'IGV Mensual Simplificado',  desc:'Control de compras y ventas para declarar', price:'S/. 20',url:''},
     {em:'📅',title:'Planilla de Sueldos',        desc:'AFP, ONP, CTS y vacaciones automáticos',    price:'S/. 25',url:''},
   ],
-  pvTab:'free',
 };
 
-// ── STORAGE ──
-async function saveData(){
+function saveData(){
   sync();
   try{
-    await window.storage.set(KEY, JSON.stringify(S));
+    localStorage.setItem(KEY, JSON.stringify(S));
     document.getElementById('udot').classList.remove('on');
     const b=document.getElementById('save-btn');
     b.classList.add('saved'); b.innerHTML='✅ Guardado';
-    setTimeout(()=>{b.classList.remove('saved');b.innerHTML='💾 Guardar cambios <span class="unsaved" id="udot"></span>';},2200);
-    toast('✅ Cambios guardados — la página pública ya se actualizó');
-  }catch(e){ toast('❌ Error al guardar'); }
+    setTimeout(()=>{b.classList.remove('saved');b.innerHTML='💾 Guardar <span class="unsaved" id="udot"></span>';},2000);
+    toast('✅ Guardado en este navegador');
+  }catch(e){ toast('❌ Error al guardar: '+e.message); }
 }
 
-async function loadData(){
+function loadData(){
   try{
-    const r = await window.storage.get(KEY);
-    if(r && r.value){ Object.assign(S, JSON.parse(r.value)); fillFields(); }
+    const raw = localStorage.getItem(KEY);
+    if(raw) Object.assign(S, JSON.parse(raw));
   }catch(e){}
-  buildLists(); render();
+  fillFields(); buildLists(); render();
 }
 
-// ── SYNC ──
 function sync(){
-  S.name      = v('f-name');
-  S.handle    = v('f-handle');
-  S.bio       = v('f-bio');
-  S.av        = v('f-av');
-  S.paytype   = v('f-paytype');
-  S.paydetail = v('f-paydetail');
+  S.name=v('f-name'); S.handle=v('f-handle'); S.bio=v('f-bio'); S.av=v('f-av');
+  S.paytype=v('f-paytype'); S.paydetail=v('f-paydetail');
 }
 function v(id){ return document.getElementById(id)?.value||''; }
-
 function fillFields(){
-  set('f-name', S.name); set('f-handle', S.handle);
-  set('f-bio',  S.bio);  set('f-av', S.av);
-  set('f-paytype', S.paytype); set('f-paydetail', S.paydetail);
+  set('f-name',S.name); set('f-handle',S.handle); set('f-bio',S.bio); set('f-av',S.av);
+  set('f-paytype',S.paytype); set('f-paydetail',S.paydetail);
   updatePayLabel();
 }
 function set(id,val){ const el=document.getElementById(id); if(el) el.value=val; }
-
 function dirty(){ document.getElementById('udot').classList.add('on'); }
-
 function updatePayLabel(){
   const m={payhip:'Link de Payhip',gumroad:'Link de Gumroad',yape:'Número Yape/Plin',kofi:'Link Ko-fi',none:'Por definir'};
   const el=document.getElementById('pay-lbl'); if(el) el.textContent=m[v('f-paytype')]||'Detalle';
 }
 
-// ── LISTS ──
 function buildLists(){ buildSocList(); buildFreeList(); buildPaidList(); }
 
 function buildSocList(){
@@ -265,8 +270,7 @@ function buildSocList(){
       <div class="soc-em">${d.em}</div>
       <div class="soc-ins">
         <input value="${d.name}" readonly style="color:var(--muted);font-size:10px;cursor:default;padding:3px 8px">
-        <input type="url" placeholder="${d.ph}" value="${s.url}"
-          oninput="S.socials[${i}].url=this.value;dirty();render()">
+        <input type="url" placeholder="${d.ph}" value="${s.url}" oninput="S.socials[${i}].url=this.value;dirty();render()">
       </div>
       <div class="tog ${s.on?'on':''}" onclick="S.socials[${i}].on=!S.socials[${i}].on;this.classList.toggle('on');dirty();render()"></div>
     </div>`;
@@ -276,22 +280,15 @@ function buildSocList(){
 function buildFreeList(){
   document.getElementById('free-list').innerHTML = S.free.map((t,i)=>`
     <div class="tpl-item">
-      <div class="tpl-head">
-        <div class="tpl-em">${t.em}</div>
-        <div class="tpl-nm">${t.title||'Plantilla'}</div>
-        <button class="del" onclick="S.free.splice(${i},1);buildFreeList();dirty();render()">✕</button>
-      </div>
+      <div class="tpl-head"><div class="tpl-em">${t.em}</div><div class="tpl-nm">${t.title||'Plantilla'}</div>
+        <button class="del" onclick="S.free.splice(${i},1);buildFreeList();dirty();render()">✕</button></div>
       <div class="tpl-fs">
         <div class="tpl-row">
-          <input placeholder="Emoji" value="${t.em}" style="max-width:56px"
-            oninput="S.free[${i}].em=this.value;buildFreeList();dirty();render()">
-          <input placeholder="Nombre" value="${t.title}"
-            oninput="S.free[${i}].title=this.value;buildFreeList();dirty();render()">
+          <input placeholder="Emoji" value="${t.em}" style="max-width:56px" oninput="S.free[${i}].em=this.value;buildFreeList();dirty();render()">
+          <input placeholder="Nombre" value="${t.title}" oninput="S.free[${i}].title=this.value;buildFreeList();dirty();render()">
         </div>
-        <input placeholder="Descripción" value="${t.desc}"
-          oninput="S.free[${i}].desc=this.value;dirty();render()">
-        <input placeholder="Link de descarga (Google Drive, Payhip, etc.)" value="${t.url}"
-          oninput="S.free[${i}].url=this.value;dirty();render()">
+        <input placeholder="Descripción" value="${t.desc}" oninput="S.free[${i}].desc=this.value;dirty();render()">
+        <input placeholder="Link de descarga" value="${t.url}" oninput="S.free[${i}].url=this.value;dirty();render()">
       </div>
     </div>`).join('');
 }
@@ -299,25 +296,17 @@ function buildFreeList(){
 function buildPaidList(){
   document.getElementById('paid-list').innerHTML = S.paid.map((t,i)=>`
     <div class="tpl-item paid">
-      <div class="tpl-head">
-        <div class="tpl-em">${t.em}</div>
-        <div class="tpl-nm">${t.title||'Plantilla'}</div>
-        <button class="del" onclick="S.paid.splice(${i},1);buildPaidList();dirty();render()">✕</button>
-      </div>
+      <div class="tpl-head"><div class="tpl-em">${t.em}</div><div class="tpl-nm">${t.title||'Plantilla'}</div>
+        <button class="del" onclick="S.paid.splice(${i},1);buildPaidList();dirty();render()">✕</button></div>
       <div class="tpl-fs">
         <div class="tpl-row">
-          <input placeholder="Emoji" value="${t.em}" style="max-width:56px"
-            oninput="S.paid[${i}].em=this.value;buildPaidList();dirty();render()">
-          <input placeholder="Nombre" value="${t.title}"
-            oninput="S.paid[${i}].title=this.value;buildPaidList();dirty();render()">
+          <input placeholder="Emoji" value="${t.em}" style="max-width:56px" oninput="S.paid[${i}].em=this.value;buildPaidList();dirty();render()">
+          <input placeholder="Nombre" value="${t.title}" oninput="S.paid[${i}].title=this.value;buildPaidList();dirty();render()">
         </div>
-        <input placeholder="Descripción" value="${t.desc}"
-          oninput="S.paid[${i}].desc=this.value;dirty();render()">
+        <input placeholder="Descripción" value="${t.desc}" oninput="S.paid[${i}].desc=this.value;dirty();render()">
         <div class="tpl-row">
-          <input placeholder="Precio (S/. 15)" value="${t.price}"
-            oninput="S.paid[${i}].price=this.value;dirty();render()">
-          <input placeholder="Link de compra (Payhip)" value="${t.url}"
-            oninput="S.paid[${i}].url=this.value;dirty();render()">
+          <input placeholder="Precio" value="${t.price}" oninput="S.paid[${i}].price=this.value;dirty();render()">
+          <input placeholder="Link de compra" value="${t.url}" oninput="S.paid[${i}].url=this.value;dirty();render()">
         </div>
       </div>
     </div>`).join('');
@@ -330,14 +319,12 @@ function addSoc(){
   S.socials.push({id:av,on:true,url:''});
   buildSocList();dirty();render();
 }
-
 function addTpl(t){
   if(t==='free'){S.free.push({em:'📄',title:'Nueva plantilla',desc:'Descripción aquí',url:''});buildFreeList();}
   else{S.paid.push({em:'📄',title:'Nueva plantilla',desc:'Descripción aquí',price:'S/. 0',url:''});buildPaidList();}
   dirty();render();
 }
 
-// ── RENDER PREVIEW ──
 function render(){
   sync();
   const act=S.socials.filter(s=>s.on);
@@ -346,7 +333,7 @@ function render(){
 
   const socH=act.map(s=>{
     const d=SDEFS[s.id]||{name:s.id,em:'🔗',bg:'#333'};
-    return `<a class="pgs" href="${s.url||'#'}" target="_blank" style="background:#0F1F3D;border:1px solid rgba(30,144,255,0.2);border-radius:${11*sc}px;padding:${11*sc}px ${5*sc}px ${9*sc}px;display:flex;flex-direction:column;align-items:center;gap:${5*sc}px;text-decoration:none">
+    return `<a href="${s.url||'#'}" target="_blank" style="background:#0F1F3D;border:1px solid rgba(30,144,255,0.2);border-radius:${11*sc}px;padding:${11*sc}px ${5*sc}px ${9*sc}px;display:flex;flex-direction:column;align-items:center;gap:${5*sc}px;text-decoration:none">
       <div style="width:${29*sc}px;height:${29*sc}px;border-radius:${7*sc}px;background:${d.bg};display:flex;align-items:center;justify-content:center;font-size:${14*sc}px">${d.em}</div>
       <span style="font-size:${9*sc}px;color:#8899BB;font-weight:500">${d.name}</span>
     </a>`;
@@ -391,45 +378,32 @@ function render(){
       <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:${20*sc}px;text-align:center;line-height:1">${unm}</h1>
       <p style="font-size:${11*sc}px;color:#8899BB;text-align:center;max-width:${240*sc}px;line-height:1.5">${bio}</p>
     </div>
-
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:${10*sc}px">
       <span style="font-family:'Space Mono',monospace;font-size:${8*sc}px;letter-spacing:3px;text-transform:uppercase;color:#8899BB">Sígueme en</span>
       <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(30,144,255,0.3),transparent)"></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(${cols},1fr);gap:${7*sc}px;margin-bottom:${20*sc}px">${socH}</div>
-
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:${10*sc}px">
       <span style="font-family:'Space Mono',monospace;font-size:${8*sc}px;letter-spacing:3px;text-transform:uppercase;color:#8899BB">Plantillas</span>
       <div style="flex:1;height:1px;background:linear-gradient(to right,rgba(30,144,255,0.3),transparent)"></div>
     </div>
-
     <div style="display:flex;background:#0F1F3D;border:1px solid rgba(30,144,255,0.14);border-radius:${11*sc}px;padding:${4*sc}px;gap:${4*sc}px;margin-bottom:${11*sc}px">
-      <button id="${tid}-f" onclick="pvtab('${tid}','${fid}','${pid}','free')"
-        style="flex:1;border-radius:${8*sc}px;border:none;padding:${8*sc}px ${5*sc}px;font-size:${11*sc}px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#00D4AA,#1E90FF);color:#fff;box-shadow:0 3px 10px rgba(0,212,170,0.22)">
-        🎁 Gratis <span style="font-size:${8*sc}px;background:rgba(0,0,0,0.18);border-radius:20px;padding:1px 5px">${S.free.length}</span>
-      </button>
-      <button id="${tid}-p" onclick="pvtab('${tid}','${fid}','${pid}','paid')"
-        style="flex:1;border-radius:${8*sc}px;border:none;padding:${8*sc}px ${5*sc}px;font-size:${11*sc}px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;background:transparent;color:#8899BB">
-        ⚡ Premium <span style="font-size:${8*sc}px;background:rgba(0,0,0,0.12);border-radius:20px;padding:1px 5px">${S.paid.length}</span>
-      </button>
+      <button id="${tid}-f" onclick="pvtab('${tid}','${fid}','${pid}','free')" style="flex:1;border-radius:${8*sc}px;border:none;padding:${8*sc}px ${5*sc}px;font-size:${11*sc}px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#00D4AA,#1E90FF);color:#fff;box-shadow:0 3px 10px rgba(0,212,170,0.22)">🎁 Gratis <span style="font-size:${8*sc}px;background:rgba(0,0,0,0.18);border-radius:20px;padding:1px 5px">${S.free.length}</span></button>
+      <button id="${tid}-p" onclick="pvtab('${tid}','${fid}','${pid}','paid')" style="flex:1;border-radius:${8*sc}px;border:none;padding:${8*sc}px ${5*sc}px;font-size:${11*sc}px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;background:transparent;color:#8899BB">⚡ Premium <span style="font-size:${8*sc}px;background:rgba(0,0,0,0.12);border-radius:20px;padding:1px 5px">${S.paid.length}</span></button>
     </div>
-
     <div id="${fid}" style="display:flex;flex-direction:column;gap:${8*sc}px">
       ${freeH}
       ${S.free.length>0?`<a href="${S.free[0].url||'#'}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:${11*sc}px;border-radius:${11*sc}px;background:linear-gradient(135deg,#00D4AA,#1E90FF);border:none;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:${13*sc}px;cursor:pointer;text-decoration:none">⬇️ Descargar plantilla gratis</a>`:''}
     </div>
     <div id="${pid}" style="display:none;flex-direction:column;gap:${8*sc}px">${paidH}</div>
-
     <div style="text-align:center;margin-top:${26*sc}px;font-family:'Space Mono',monospace;font-size:${8*sc}px;color:rgba(136,153,187,0.25);letter-spacing:3px">ctrl<span style="color:#F5C842">+</span>contable</div>
     <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
   `;
 }
 
 function pvtab(tid,fid,pid,which){
-  const tf=document.getElementById(tid+'-f');
-  const tp=document.getElementById(tid+'-p');
-  const pf=document.getElementById(fid);
-  const pp=document.getElementById(pid);
+  const tf=document.getElementById(tid+'-f'), tp=document.getElementById(tid+'-p');
+  const pf=document.getElementById(fid), pp=document.getElementById(pid);
   if(!tf||!tp||!pf||!pp)return;
   if(which==='free'){
     tf.style.cssText='flex:1;border-radius:8px;border:none;padding:7px 5px;font-size:10px;font-family:DM Sans,sans-serif;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#00D4AA,#1E90FF);color:#fff;box-shadow:0 3px 10px rgba(0,212,170,0.22)';
@@ -446,6 +420,20 @@ function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── PUBLISH MODAL ──
+function openPublishModal(){
+  sync();
+  const json = JSON.stringify(S, null, 2);
+  const code = `//DATA_START\nconst SITE_DATA = ${json};\n//DATA_END`;
+  document.getElementById('code-box').textContent = code;
+  document.getElementById('modal-bg').classList.add('show');
+}
+function closePublishModal(){ document.getElementById('modal-bg').classList.remove('show'); }
+function copyPublishCode(){
+  const code = document.getElementById('code-box').textContent;
+  navigator.clipboard.writeText(code).then(()=>toast('📋 Código copiado — pégalo en pagina.html'));
 }
 
 loadData();
